@@ -1,7 +1,7 @@
 from django.contrib import admin
-from django.urls import path, include  # include qo‘shildi
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('oliygoh.urls')),  # 👉 asosiy sahifani app ga yo‘naltiramiz
+    path('', include('oliygoh.urls')),  # <--- bu joy kerak
 ]
