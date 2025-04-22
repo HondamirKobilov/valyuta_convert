@@ -1,8 +1,6 @@
-from django.contrib import admin
 from django.urls import path
-from .views import index  # import qildik
+from .views import home  # views.py ichidagi home funksiyasini chaqiramiz
 
 urlpatterns = [
-    path('', index()),
-    path('admin/', admin.site.urls),
+    path('', home, name='home'),
 ]
