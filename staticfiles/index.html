@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qabul 2024</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Qabul 2024 - oliygohlar, kirish ballari 2024 va qabul kvotalari 2024</h1>
+
+        <div class="form-group">
+            <label for="search">Qidiruv</label>
+            <input type="text" id="search" placeholder="Qidiruv">
+        </div>
+
+        <div class="form-group">
+            <label for="region">Joylashgan hudud</label>
+            <select id="region">
+                <option value="">Viloyat</option>
+                <option value="toshkent">Toshkent</option>
+                <option value="samarqand">Samarqand</option>
+                <option value="bukhoro">Buxoro</option>
+                <!-- Qo'shimcha viloyatlar -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="language">Ta'lim tili</label>
+            <select id="language">
+                <option value="">Til</option>
+                <option value="uzbek">O'zbek</option>
+                <option value="russian">Rus</option>
+                <option value="english">Ingliz</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="direction">Yo'nalishlar</label>
+            <select id="direction">
+                <option value="">Mutaxassislik</option>
+                <option value="law">Huquqshunoslik</option>
+                <option value="medicine">Tibbiyot</option>
+                <option value="engineering">Muhandislik</option>
+                <!-- Qo'shimcha yo'nalishlar -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="score">Kirish bali - <span id="score-value">119.5</span></label>
+            <input type="range" id="score" min="50" max="200" step="0.1" value="119.5" oninput="updateScoreValue(this.value)">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

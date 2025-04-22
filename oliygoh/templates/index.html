@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="uz">
+{% load static %}
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Valyuta Konvertori - USD, EUR, UZS uchun tez hisob</title>
+  <meta name="description" content="Valyuta kurslarini onlayn hisoblang. USD, EUR va boshqa valyutalarni real vaqt rejimida konvertatsiya qiling. Bepul va mobilga mos." />
+
+  <!-- CDN CSS kutubxonalar -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+  <!-- Django static fayllar -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <link rel="icon" href="{% static 'assets/logo.png' %}" />
+</head>
+<body>
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+      <div class="container d-flex justify-content-between align-items-center">
+        <!-- Chap tomonda logotip -->
+        <a class="navbar-brand" href="#">💱 Valyuta</a>
+
+        <!-- O'ng tomonda: burger + rejim -->
+        <div class="d-flex align-items-center gap-2">
+          <!-- ☰ Burger menyu tugmasi -->
+          <div class="position-relative" id="langDropdownContainer">
+            <div class="lang-trigger d-flex align-items-center gap-2 px-3 py-1 rounded" style="cursor: pointer;">
+              🌐
+            </div>
+            <div id="langMenu" class="lang-menu border rounded mt-1 bg-white dark-mode-bg d-none position-absolute" style="z-index: 1000;">
+              <div class="dropdown-item" onclick="selectLang('uz')">O‘zbekcha</div>
+              <div class="dropdown-item" onclick="selectLang('en')">English</div>
+              <div class="dropdown-item" onclick="selectLang('ru')">Русский</div>
+            </div>
+          </div>
+          <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="toggler-line"></span>
+            <span class="toggler-line"></span>
+            <span class="toggler-line"></span>
+          </button>
+
+          <!-- 🌙 Rejim tugmasi (faqat mobil uchun) -->
+          <button class="btn btn-outline-secondary d-lg-none" id="themeToggleMobile">🌙</button>
+        </div>
+        <!-- Menyu bo‘limi (katta ekranda ochiq, kichikda collapse) -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto d-flex flex-row">
+            <li class="nav-item me-2"><a class="nav-link btn btn-info fw-bold" href="#" onclick="navigateTo('home')" id="nav_home">Home</a></li>
+            <li class="nav-item me-2"><a class="nav-link btn btn-info fw-bold" href="#" onclick="navigateTo('currencies')" id="nav_currencies">Currencies</a></li>
+            <li class="nav-item me-2"><a class="nav-link btn btn-info fw-bold" href="#" onclick="navigateTo('history')" id="nav_history">History</a></li>
+            <li class="nav-item me-2"><a class="nav-link btn btn-info fw-bold" href="#" onclick="navigateTo('news')" id="nav_news">News</a></li>
+            <li class="nav-item me-2"><a class="nav-link btn btn-info fw-bold" href="#" onclick="navigateTo('about')" id="nav_about">About</a></li>
+            <!-- 🌙 Rejim tugmasi faqat desktopda -->
+            <li class="nav-item d-none d-lg-block">
+              <button class="btn btn-outline-secondary ms-3" id="themeToggleDesktop">🌙</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-5">
+      <div class="position-relative rounded overflow-hidden banner-wrapper">
+        <img src="{% static 'img/banner.jpg' %}" alt="Banner" class="img-fluid w-100" style="height: 280px; object-fit: cover;" />
+
+        <!-- Overlay -->
+        <div class="position-absolute top-0 start-0 w-100 h-100 banner-overlay"></div>
+
+        <!-- Matn -->
+        <div class="position-absolute top-50 start-50 translate-middle text-center text-white z-3">
+          <h2 class="fw-bold" id="banner_title">Convert currencies in real-time</h2>
+        </div>
+      </div>
+    </div>
+    <!-- 📄 Sahifalar -->
+    <main class="container py-4">
+      <!-- 🏠 Bosh sahifa -->
+      <section id="home" class="container my-5 page">
+        <div class="card shadow p-4">
+          <h2 class="text-primary text-center fw-bold mb-1" id="converter_title">Currency Converter</h2>
+          <p class="text-center text-muted mb-4 wwww" id="converter_subtitle">Get live exchange rates</p>
+
+          <div class="row justify-content-center align-items-center g-4">
+            <!-- From Currency -->
+            <div class="col-md-4">
+              <label for="from-currency" class="form-label" id="label_from">From</label>
+              <div class="d-flex align-items-center border rounded p-2 mb-2">
+                <img id="from-flag" src="https://flagcdn.com/w40/us.png" width="30" height="20" class="me-2" />
+                <select id="from-currency" class="form-select border-0 p-0"></select>
+              </div>
+              <input type="number" id="amount" class="form-control" placeholder="e.g. 100" />
+            </div>
+
+            <!-- Arrow (Responsive Centered) -->
+            <div class="col-12 d-md-none text-center">
+              <div class="bg-light rounded-circle d-inline-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-primary" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </div>
+            </div>
+
+            <div class="col-md-1 d-none d-md-flex justify-content-center align-items-center">
+              <div class="bg-light rounded-circle d-inline-flex justify-content-center align-items-center" style="width: 40px; height: 40px;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="text-primary" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12h14"></path>
+                  <path d="m12 5 7 7-7 7"></path>
+                </svg>
+              </div>
+            </div>
+
+            <!-- To Currency -->
+            <div class="col-md-4">
+              <label for="to-currency" class="form-label" id="label_to">To</label>
+              <div class="d-flex align-items-center border rounded p-2 mb-2">
+                <img id="to-flag" src="https://flagcdn.com/w40/uz.png" width="30" height="20" class="me-2" />
+                <select id="to-currency" class="form-select border-0 p-0"></select>
+              </div>
+              <button id="convert_btn" class="btn btn-primary w-100 mt-1" onclick="convertCurrency()" >Convert</button>
+            </div>
+          </div>
+
+          <!-- Result -->
+          <div id="result" class="text-center mt-4 bg-light p-3 rounded fw-bold fs-5 home_result"></div>
+        </div>
+      </section>
+
+      <!-- 💱 Valyutalar ro'yxati -->
+      <section id="currencies" class="page d-none">
+        <h2 class="mb-4">💱 Currencies</h2>
+
+        <div id="currency-list" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+        </div>
+      </section>
+
+      <!-- 📈 Tarixiy kurslar -->
+      <section id="history" class="page d-none">
+        <div class="container">
+          <h2 class="mb-4 text-center fw-bold text-primary" id="history_title">📈 1 Week Exchange Rate Trend Chart</h2>
+
+          <!-- Valyuta tanlash -->
+          <div class="row mb-4">
+            <!-- From Currency -->
+            <div class="col-md-6">
+              <label for="baseCurrency" class="form-label" id="history_from_label">🔁 From (which currency)</label>
+              <div class="d-flex align-items-center border rounded p-2 mb-2">
+                <img id="history-from-flag" src="https://flagcdn.com/w40/us.png" width="30" height="20" class="me-2" />
+                <select id="baseCurrency" class="form-select border-0 p-0"></select>
+              </div>
+            </div>
+
+            <!-- To Currency -->
+            <div class="col-md-6">
+              <label for="targetCurrency" class="form-label" id="history_to_label">➡️ To (target currency)</label>
+              <div class="d-flex align-items-center border rounded p-2 mb-2">
+                <img id="history-to-flag" src="https://flagcdn.com/w40/uz.png" width="30" height="20" class="me-2" />
+                <select id="targetCurrency" class="form-select border-0 p-0"></select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Grafik -->
+          <div class="card shadow-sm p-3">
+            <canvas id="history-chart" height="100"></canvas>
+          </div>
+
+          <!-- Izoh -->
+          <p class="mt-3 text-muted text-center history_footer_text" id="history_description">
+            This chart shows how exchange rates have changed over the past month for the selected currencies.
+          </p>
+        </div>
+      </section>
+
+
+      <!-- 📰 Yangiliklar -->
+      <section id="news" class="container my-5 page d-none">
+        <h2 class="text-center text-primary fw-bold mb-4" id="news_title">📰 Currency & Financial News</h2>
+
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title" id="news_1_title">📌 Central Bank announces official USD rate</h5>
+                <p class="card-text text-muted" id="news_1_text">As of April 20, 2025, USD/UZS is set at 12,300 UZS, down 0.5% from last week.</p>
+                <a href="https://cbu.uz" class="btn btn-outline-primary btn-sm" target="_blank" id="news_1_btn">Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title" id="news_2_title">🌐 Oil prices rise in the global market</h5>
+                <p class="card-text text-muted" id="news_2_text">Brent oil hits $92, possibly impacting exchange rates.</p>
+                <a href="https://investing.com" class="btn btn-outline-primary btn-sm" target="_blank" id="news_2_btn">Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title" id="news_3_title">🇺🇿 Uzbekistan’s inflation reaches 11.3%</h5>
+                <p class="card-text text-muted" id="news_3_text">Central Bank reports 11.3% inflation for Q1 2025.</p>
+                <a href="https://stat.uz" class="btn btn-outline-primary btn-sm" target="_blank" id="news_3_btn">Details</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title" id="news_4_title">💱 EUR/UZS rate stabilizing</h5>
+                <p class="card-text text-muted" id="news_4_text">The Euro remains stable around 13,200 UZS.</p>
+                <a href="#" class="btn btn-outline-primary btn-sm" id="news_4_btn">Read more</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ℹ️ Haqida -->
+      <section id="about" class="page d-none py-5 bg-light">
+        <div class="container">
+          <h2 class="text-center text-primary fw-bold mb-4" id="about_title">About the Project</h2>
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <p class="lead text-center" id="about_description">
+                This project helps users view real-time exchange rates, compare them easily, and perform quick calculations.
+              </p>
+              <ul class="list-group list-group-flush mt-4">
+                <li class="list-group-item" id="about_feature_1">🔹 Supports over 160 currencies</li>
+                <li class="list-group-item" id="about_feature_2">🔹 Analyze exchange rates with interactive charts</li>
+                <li class="list-group-item" id="about_feature_3">🔹 Dark and light mode support</li>
+                <li class="list-group-item" id="about_feature_4">🔹 Interface available in Uzbek, Russian, and English</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <section class="footer-section text-white py-4 mt-5">
+      <div class="container">
+        <div class="row text-center text-lg-start ml-4">
+          <!-- Ustun 1 -->
+          <div class="col-md-4 mb-4 mx-auto">
+            <h6 class="text-uppercase fw-bold" id="footer_section1_title">SITE SECTIONS</h6>
+            <ul class="list-unstyled">
+              <li><a href="#" onclick="navigateTo('home')" class="text-light text-decoration-none footer-link" id="footer_nav_home">🏠 Home</a></li>
+              <li><a href="#" onclick="navigateTo('currencies')" class="text-light text-decoration-none footer-link" id="footer_nav_currencies">💱 Currencies</a></li>
+              <li><a href="#" onclick="navigateTo('history')" class="text-light text-decoration-none footer-link" id="footer_nav_history">📈 History</a></li>
+              <li><a href="#" onclick="navigateTo('news')" class="text-light text-decoration-none footer-link" id="footer_nav_news">📰 News</a></li>
+              <li><a href="#" onclick="navigateTo('about')" class="text-light text-decoration-none footer-link" id="footer_nav_about">ℹ️ About</a></li>
+            </ul>
+          </div>
+
+          <!-- Ustun 2 -->
+          <div class="col-md-4 mb-4 mx-auto">
+            <h6 class="text-uppercase fw-bold" id="footer_section2_title">CONTACT</h6>
+            <p class="mb-1" id="footer_location">
+              📍 <a href="https://www.google.com/maps/place/Toshkent,+O%60zbekiston"
+                    target="_blank"
+                    class="text-light text-decoration-none footer-link">
+                     Tashkent, Uzbekistan
+                 </a>
+            </p>
+            <p class="mb-1" id="footer_email">📧 <a href="mailto:info@valyuta.uz" class="text-warning text-decoration-none">info@valyuta.uz</a></p>
+            <p id="footer_phone">📞 +998 90 123 45 67</p>
+          </div>
+
+          <!-- Ustun 3 -->
+          <div class="col-md-4 mb-4 mx-auto">
+            <h6 class="text-uppercase fw-bold" id="footer_section3_title">SOCIAL NETWORKS</h6>
+            <div class="d-flex justify-content-center justify-content-lg-start gap-3 fs-4">
+              <a href="https://t.me/valyutabot" target="_blank" class="text-light social-icon telegram">
+                <i class="fab fa-telegram"></i>
+              </a>
+              <a href="https://instagram.com/valyutabot" target="_blank" class="text-light social-icon instagram">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="mailto:info@valyuta.uz" class="text-light social-icon email">
+                <i class="fas fa-envelope"></i>
+              </a>
+              <a href="https://facebook.com/valyutabot" target="_blank" class="text-light social-icon facebook">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="https://twitter.com/valyutabot" target="_blank" class="text-light social-icon twitter">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="bg-dark text-white py-4">
+      <div class="container text-center">
+        <p class="mb-1" id="footer_copy">© 2025 Currency Converter. All rights reserved.</p>
+        <p class="mb-0" id="footer_contact">Contact: <a href="mailto:info@valyuta.uz" class="text-warning text-decoration-none">info@valyuta.uz</a></p>
+      </div>
+    </footer>
+
+  </div>
+  {% load static %}
+    <!-- CDN orqali yuklanadigan JavaScript fayllar (ularni o‘zgartirmaslik kerak) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Django static fayllar -->
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/convert.js' %}"></script>
+    <script src="{% static 'js/currencies.js' %}"></script>
+    <script src="{% static 'js/history.js' %}"></script>
+    <script src="{% static 'js/news.js' %}"></script>
+    <script src="{% static 'js/about.js' %}"></script>
+    <script src="{% static 'js/lang.js' %}"></script>
+    <script src="{% static 'js/home.js' %}"></script>
+</body>
+</html>
