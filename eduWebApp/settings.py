@@ -56,14 +56,10 @@ WSGI_APPLICATION = 'eduWebApp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dtm_webApp',
-        'USER': 'postgres',
-        'PASSWORD': '123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.dummy'
     }
 }
+
 
 
 # Password validation
