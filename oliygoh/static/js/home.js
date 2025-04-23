@@ -59,9 +59,10 @@ function populateCurrencySelects() {
 }
 
 async function convertCurrency() {
-  const amount = parseFloat(amountInput.value);
-  const from = fromSelect.value;
-  const to = toSelect.value;
+  const amount = parseFloat(document.getElementById("amount").value);
+  const from = document.getElementById("from-currency").value;
+  const to = document.getElementById("to-currency").value;
+  const resultDiv = document.getElementById("result");
 
   if (!amount || isNaN(amount)) {
     resultDiv.textContent = "❌ Iltimos, to‘g‘ri miqdor kiriting.";
@@ -69,7 +70,7 @@ async function convertCurrency() {
   }
 
   try {
-    const response = await fetch("/static/assets/data/data.json");
+    const response = await fetch("assets/data/data.json"); // yoki "/static/assets/data/data.json"
     const data = await response.json();
     const latest = data[data.length - 1];
     const rates = latest.data;
@@ -85,17 +86,17 @@ async function convertCurrency() {
     resultDiv.innerHTML = `
       <div class="alert alert-success" style="color: #0750af;">
         ✅ <strong>${amount}</strong> ${from} = <strong>${formatted}</strong> ${to}
-      </div>`;
+      </div>
+    `;
 
-    // ✅ Tugma bosilgandan so'ng sahifani yangilash:
-    setTimeout(() => {
-      window.location.reload();
-    }, 1000); // foydalanuvchi natijani ko‘rib ulgurishi uchun 1 soniya kutish
+    // ✅ 1 soniyadan keyin sahifani avtomatik yangilash
+    setTimeout(() => window.location.reload(), 1000);
 
   } catch (err) {
     resultDiv.textContent = "❌ Xatolik yuz berdi: " + err.message;
   }
 }
+
 
 
 
