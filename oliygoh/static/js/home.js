@@ -62,7 +62,7 @@ async function convertCurrency() {
   const amount = parseFloat(amountInput.value);
   const from = fromSelect.value;
   const to = toSelect.value;
-
+  location.reload();
   if (!amount || isNaN(amount)) {
     resultDiv.textContent = "❌ Iltimos, to‘g‘ri miqdor kiriting.";
     return;
@@ -86,7 +86,6 @@ async function convertCurrency() {
       <div class="alert alert-success" style="color: #0750af;">
         ✅ <strong>${amount}</strong> ${from} = <strong>${formatted}</strong> ${to}
       </div>`;
-    location.reload();
 
   } catch (err) {
     resultDiv.textContent = "❌ Xatolik yuz berdi: " + err.message;
