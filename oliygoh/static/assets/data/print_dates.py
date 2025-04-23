@@ -16,4 +16,4 @@ def print_dates_list(path):
         print(f"❌ Xatolik yuz berdi: {e}")
 
 # Ishlatish:
-print_dates_list("assets/data/data.json")
+print_dates_list("data.json")
