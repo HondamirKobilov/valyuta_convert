@@ -87,13 +87,16 @@ async function convertCurrency() {
         ✅ <strong>${amount}</strong> ${from} = <strong>${formatted}</strong> ${to}
       </div>`;
 
-    // 🕓 1.5 soniyadan so‘ng refresh
-    setTimeout(() => location.reload(), 1500);
+    // ✅ Tugma bosilgandan so'ng sahifani yangilash:
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000); // foydalanuvchi natijani ko‘rib ulgurishi uchun 1 soniya kutish
 
   } catch (err) {
     resultDiv.textContent = "❌ Xatolik yuz berdi: " + err.message;
   }
 }
+
 
 
 // Hodisalar
