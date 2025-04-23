@@ -62,7 +62,7 @@ async function convertCurrency() {
   const amount = parseFloat(amountInput.value);
   const from = fromSelect.value;
   const to = toSelect.value;
-  location.reload();
+
   if (!amount || isNaN(amount)) {
     resultDiv.textContent = "❌ Iltimos, to‘g‘ri miqdor kiriting.";
     return;
@@ -87,10 +87,14 @@ async function convertCurrency() {
         ✅ <strong>${amount}</strong> ${from} = <strong>${formatted}</strong> ${to}
       </div>`;
 
+    // 🕓 1.5 soniyadan so‘ng refresh
+    setTimeout(() => location.reload(), 1500);
+
   } catch (err) {
     resultDiv.textContent = "❌ Xatolik yuz berdi: " + err.message;
   }
 }
+
 
 // Hodisalar
 fromSelect.addEventListener("change", updateFlags);
