@@ -61,7 +61,7 @@ function fillHistoryCurrencySelects() {
 async function loadHistoryChart() {
   const base = document.getElementById("baseCurrency").value;
   const target = document.getElementById("targetCurrency").value;
-  const response = await fetch("/static/assets/data/data.json");
+  const response = await fetch(`/static/assets/data/data.json?time=${Date.now()}`);
   const jsonData = await response.json();
 
   const labels = [];
