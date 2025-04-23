@@ -86,6 +86,7 @@ async function convertCurrency() {
       <div class="alert alert-success" style="color: #0750af;">
         ✅ <strong>${amount}</strong> ${from} = <strong>${formatted}</strong> ${to}
       </div>`;
+    location.reload();
 
   } catch (err) {
     resultDiv.textContent = "❌ Xatolik yuz berdi: " + err.message;
