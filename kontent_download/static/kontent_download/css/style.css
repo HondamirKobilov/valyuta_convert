@@ -1,0 +1,337 @@
+body
+{
+      background-color: #6bb1e1;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 2rem 0;
+      display: flex;
+      justify-content: center;
+}
+
+.chat-wrapper {
+      width: 100%;
+      max-width: 720px; /* yoki 640px */
+      height: 720px;
+      border-radius: 15px;
+      background-color: #083c5a;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+    }
+
+    .chat-body {
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+    .identify-card img {
+      width: 60px;
+    }
+#voice-record-ui {
+  transition: all 0.2s ease;
+}
+/* Tugma ichidagi animatsiya uchun */
+.pulse-button {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  overflow: visible;
+  z-index: 2;
+}
+
+/* Harakatlanayotgan halo 1 */
+.pulse-button::before,
+.pulse-button::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 45px;
+  height: 45px;
+  background: rgba(255, 0, 0, 0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  animation: pulse-anim 1.5s infinite;
+}
+
+/* Halo 2 biroz kechikkan */
+.pulse-button::after {
+  animation-delay: 0.75s;
+}
+
+@keyframes pulse-anim {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.2);
+    opacity: 0;
+  }
+}
+
+.send-pulse {
+  box-shadow: 0 0 0 rgba(220, 53, 69, 0.5);
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+.pulse-button {
+  animation: pulseAnim 1.2s infinite ease-in-out;
+}
+
+@keyframes pulseAnim {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 53, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+.voice-message {
+  background-color: #ffffff;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  max-width: 300px;
+}
+.voice-message audio {
+  height: 30px;
+}
+.voice-message span {
+  font-size: 12px;
+  color: #888;
+}
+
+.voice-message-wrapper {
+  background-color: #1e88e5;
+  border-radius: 20px;
+  padding: 10px 15px;
+  color: white;
+  max-width: 350px;
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.voice-player {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.play-button {
+  width: 32px;
+  height: 32px;
+  background-color: white;
+  border-radius: 50%;
+  border: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%231e88e5" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M8 5v14l11-7z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.waveform-container {
+  flex-grow: 1;
+}
+
+.waveform {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 24px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.wave-bar {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 2px;
+  border-radius: 2px;
+  transition: background-color 0.2s;
+}
+
+
+.wave-bar.playing {
+  background-color: white;
+}
+
+.time-labels {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 12px;
+  color: #e0e0e0;
+  padding-top: 4px;
+}
+
+.combined-time {
+  font-variant-numeric: tabular-nums;
+}
+
+.time-label-combined {
+  font-size: 12px;
+  padding-top: 5px;
+  display: block;
+  font-variant-numeric: tabular-nums;
+  color: white;
+}
+
+.user-message {
+  align-self: flex-end;
+  background-color: #1976d2; /* Telegram uslubida */
+  border-radius: 16px;
+  padding: 8px 10px;
+  margin: 4px 0;
+  max-width: 80%;
+  color: white;
+}
+#chat-messages {
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-bubble {
+  max-width: 75%;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 12px;
+  word-wrap: break-word;
+}
+
+.chat-bubble.user {
+  background-color: #1976d2;
+  color: white;
+  align-self: flex-end;
+}
+
+.chat-bubble.bot {
+  background-color: #e3e3e3;
+  color: black;
+  align-self: flex-start;
+}
+.message-status {
+  letter-spacing: -1px; /* yoki -0.5px */
+  margin-left: 4px; /* biroz chapga yaqinlashtirish */
+}
+.chat-bubble {
+  max-width: 70%;
+  padding: 8px 12px;
+  border-radius: 16px;
+  margin: 4px 0;
+  font-size: 14px;
+  line-height: 1.4;
+  display: inline-block;
+  position: relative;
+  word-break: break-word;
+}
+
+.chat-bubble.user {
+  background-color: #1e88e5;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 0px;
+}
+
+.chat-bubble.bot {
+  background-color: #e0e0e0;
+  color: black;
+  align-self: flex-start;
+  border-bottom-left-radius: 0px;
+}
+
+.message-meta {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 4px;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 3px;
+}
+
+.message-status {
+  font-size: 12px;
+  letter-spacing: -0.5px;
+}
+#messageInput {
+  border-radius: 8px !important;
+  resize: none;
+  padding: 8px 12px;
+  line-height: 1.4;
+  overflow-y: auto; /* 🟢 scroll imkonini beradi */
+  max-height: 150px; /* ✳️ balandlik chegarasi, istasang o‘zgartirasan */
+}
+.chat-bubble.user {
+  background-color: #1976d2;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 12px;
+  max-width: 70%;
+  align-self: flex-end;
+  margin-bottom: 8px;
+}
+
+.message-info {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: right;
+}
+.chat-bubble {
+  background-color: #1976d2;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 16px;
+  max-width: 75%;
+  font-size: 14px;
+  display: inline-block;
+  position: relative;
+  word-break: break-word;
+  margin-bottom: 4px;
+}
+
+.chat-bubble.user {
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.chat-bubble.bot {
+  background-color: #e0e0e0;
+  color: black;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+
+/* 🟦 Media ichida bo‘lsa ham mos bo‘ladi */
+.chat-bubble video,
+.chat-bubble audio {
+  width: 100%;
+  max-width: 240px;
+  border-radius: 8px;
+  margin-top: 4px;
+  display: block;
+}
+
+/* ⏰ Pastki vaqt va pitechka */
+.chat-bubble .meta {
+  font-size: 12px;
+  opacity: 0.7;
+  text-align: right;
+  margin-top: 4px;
+}
