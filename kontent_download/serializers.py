@@ -1,20 +1,7 @@
 from rest_framework import serializers
-from .models import User, Content, Download
+from .models import DownloadedMedia
 
-
-class UserSerializer(serializers.ModelSerializer):
+class DownloadedMediaSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = '__all__'
-
-
-class ContentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Content
-        fields = '__all__'
-
-
-class DownloadSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Download
+        model = DownloadedMedia
         fields = '__all__'

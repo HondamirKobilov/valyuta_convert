@@ -1,14 +1,15 @@
+# urls.py fayli (kontent_download app)
 from django.urls import path
-from shazam.views import (
-    index,
-    CheckOrCreateContentView,
-    telegram_auth,
-    send_message_to_bot,       # ✅ BU QATORNI QO‘SH!
-)
+from . import views
+from .views import find_music, shazam_search, download_music
+
+app_name = "kontent_download"
 
 urlpatterns = [
-    path('', index, name='shazam_home'),
-    path('content/', CheckOrCreateContentView.as_view(), name='check_or_create_content'),
-    path('api/send_message_to_bot/', send_message_to_bot, name='send_message_to_bot'),
-    path('api/telegram_auth/', telegram_auth, name='telegram_auth'),
+    path('', views.index, name='index'),
+    path('api/fetch_instagram_media/', views.fetch_instagram_media, name='fetch_instagram_media'),
+    path('api/download_video/', views.download_video, name='download_video'),
+    path('api/find_music/', find_music, name='find_music'),
+    path('api/shazam/', shazam_search, name='shazam_search'),
+    path("download_music/", download_music, name="download_music"),
 ]

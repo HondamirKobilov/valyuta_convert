@@ -1,12 +1,22 @@
 from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-di@%12kp)%zf*n_rofbgnf24(&j8xy+8nu2ab3p2&xs=22$5(c'
+FFMPEG_PATH = "C:/ffmpeg/bin/ffmpeg.exe"
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 # ALLOWED_HOSTS = ['127.0.0.1', '157.180.18.152', 'Exchanger.uz', 'www.Exchanger.uz','localhost']
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '9852-185-139-138-148.ngrok-free.app',
+]
 
 
 # Application definition
@@ -18,8 +28,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'oliygoh',
-    'rest_framework'
+    'valyuta_converter',
+    'shazam',
+    'rest_framework',
+    'kontent_download'
 ]
 
 MIDDLEWARE = [
@@ -32,12 +44,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'eduWebApp.urls'
+ROOT_URLCONF = 'web_app.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "oliygoh" / "templates"],  # Templates katalogi
+        'DIRS': [BASE_DIR / "templates"],  # Templates katalogi
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -50,19 +62,23 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'eduWebApp.wsgi.application'
+WSGI_APPLICATION = 'web_app.wsgi.application'
 
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# settings.py
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / "db.sqlite3",
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'shazam_web',
+        'USER': 'postgres',
+        'PASSWORD': '123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
-
 
 
 
@@ -101,7 +117,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'oliygoh/static',  # static fayllar papkasi
+    BASE_DIR / 'valyuta_converter/static',  # static fayllar papkasi
 ]
 
 STATIC_ROOT = BASE_DIR / "staticfiles"

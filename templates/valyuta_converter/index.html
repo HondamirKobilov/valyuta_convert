@@ -26,16 +26,18 @@
         <!-- O'ng tomonda: burger + rejim -->
         <div class="d-flex align-items-center gap-2">
           <!-- ☰ Burger menyu tugmasi -->
-          <div class="position-relative" id="langDropdownContainer">
-            <div class="lang-trigger d-flex align-items-center gap-2 px-3 py-1 rounded" style="cursor: pointer;">
-              🌐
+          <!-- 🌐 TIL TUGMASI -->
+            <div class="position-relative" id="langDropdown">
+              <div class="text-white" style="cursor: pointer;" onclick="toggleLangMenu()">
+                🌐
+              </div>
+              <div id="langMenu" class="lang-menu border rounded mt-1 bg-white position-absolute d-none" style="z-index: 1000;">
+                <div class="dropdown-item" onclick="selectLang('en')">English</div>
+                <div class="dropdown-item" onclick="selectLang('uz')">O‘zbekcha</div>
+                <div class="dropdown-item" onclick="selectLang('ru')">Русский</div>
+              </div>
             </div>
-            <div id="langMenu" class="lang-menu border rounded mt-1 bg-white dark-mode-bg d-none position-absolute" style="z-index: 1000;">
-              <div class="dropdown-item" onclick="selectLang('uz')">O‘zbekcha</div>
-              <div class="dropdown-item" onclick="selectLang('en')">English</div>
-              <div class="dropdown-item" onclick="selectLang('ru')">Русский</div>
-            </div>
-          </div>
+
           <button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="toggler-line"></span>
             <span class="toggler-line"></span>

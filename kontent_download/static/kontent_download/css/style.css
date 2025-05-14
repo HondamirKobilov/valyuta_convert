@@ -1,18 +1,25 @@
 body
 {
-      background-color: #6bb1e1;
+      background-color: #e4e6e8;
       font-family: 'Segoe UI', sans-serif;
-      padding: 2rem 0;
       display: flex;
       justify-content: center;
 }
+body, html {
+  margin: 0;
+  padding: 0;
+}
+.content-section {
+  scroll-margin-top: 100px; /* navbar balandligiga qarab sozlang */
+}
+
 
 .chat-wrapper {
       width: 100%;
       max-width: 720px; /* yoki 640px */
       height: 720px;
       border-radius: 15px;
-      background-color: #083c5a;
+      background-color: #f4fafd;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -334,4 +341,271 @@ body
   opacity: 0.7;
   text-align: right;
   margin-top: 4px;
+}
+
+@keyframes grow-note {
+    0% { transform: scale(1); }
+    50% { transform: scale(2); }
+    100% { transform: scale(1); }
+  }
+
+  .music-btn:hover .note-icon {
+    display: inline-block;
+    animation: grow-note 0.4s ease-in-out;
+  }
+#chat-wrapper {
+  min-height: 70vh;
+}
+
+@media (max-width: 992px) {
+  #chat-wrapper {
+    min-height: 60vh;
+  }
+}
+
+@media (max-width: 768px) {
+  #chat-wrapper {
+    min-height: 50vh;
+  }
+}
+
+@media (max-width: 576px) {
+  #chat-wrapper {
+    min-height: 40vh;
+  }
+}
+.navbar-nav .nav-link {
+  text-decoration: none;
+  position: relative;
+}
+
+.navbar-nav .nav-link::before,
+.navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  display: block;
+  border: 0 solid transparent;
+  width: 0%;
+  height: 0%;
+  transition: all 0.5s ease;
+}
+
+.navbar-nav .nav-link::after {
+  top: 0;
+  left: 0;
+  border-top: 2px solid transparent;
+  border-left: 2px solid transparent;
+}
+
+.navbar-nav .nav-link::before {
+  right: 0;
+  bottom: 0;
+  border-bottom: 2px solid transparent;
+  border-right: 2px solid transparent;
+}
+
+.navbar-nav .nav-link:hover::before,
+.navbar-nav .nav-link:hover::after {
+  width: 100%;
+  height: 100%;
+  border-color: #A6A6A6;
+}
+
+.lang-trigger {
+  background: none !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+}
+
+
+.navbar-nav .nav-link {
+  color: #ffffff;
+  transition: all 0.3s ease;
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.navbar-nav .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #00bfff;
+  transform: translateY(-1px);
+}
+
+.lang-menu {
+  min-width: 120px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+.lang-menu .dropdown-item {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.lang-menu .dropdown-item:hover {
+  background-color: #f0f0f0;
+}
+.chat-wrapper {
+  transition: height 0.3s ease;
+}
+
+/* Faqat telefon (eng <= 480px) */
+@media (max-width: 480px) {
+  .chat-wrapper {
+    height: 30vh;
+  }
+
+  .chat-wrapper.expanded {
+    height: 80vh;
+  }
+}
+/* Umumiy holat (planshet, kompyuter) */
+.chat-wrapper {
+  height: 60vh;
+  transition: height 0.3s ease;
+}
+
+/* 📱 Faqat telefon uchun maxsus (kichikroq balandlik) */
+@media (max-width: 480px) {
+  .chat-wrapper {
+    height: 20vh; /* Telefon uchun juda kichik bo‘y */
+  }
+
+  .chat-wrapper.expanded {
+    height: 70vh;
+  }
+}
+
+.col {
+  transition: box-shadow 0.6s ease;
+}
+
+.card-body:hover {
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+.hover-shadow:hover .card {
+    box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease;
+  }
+
+.chat-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  max-height: 95vh;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+/* Chat body */
+#chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Har bir xabar */
+.chat-bubble {
+  max-width: 100%;
+  width: fit-content;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.chat-bubble.user {
+  align-self: flex-end;
+  background-color: #e3f2fd;
+  color: #000;
+}
+
+.chat-bubble.bot {
+  align-self: flex-start;
+  background-color: #f1f1f1;
+  color: #000;
+}
+
+/* Xabar va vaqt */
+.message-meta {
+  font-size: 12px;
+  color: #666;
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Music tugmalar grid (responsive) */
+.music-btn-grid {
+  display: grid;
+  gap: 8px;
+  margin-top: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(48px, 1fr));
+}
+
+.music-btn {
+  padding: 10px 0;
+  font-size: 15px;
+  background: #00bcd4;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Navigatsiya tugmalar */
+.music-nav-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.music-nav-grid button {
+  font-size: 16px;
+  padding: 8px 0;
+}
+
+/* Mobil uchun yaxshilanish */
+@media (max-width: 480px) {
+  .chat-wrapper {
+    border-radius: 0;
+    height: 94vh;
+  }
+  #chat-messages {
+    padding: 0.8rem;
+    gap: 10px;
+  }
+  .chat-bubble {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+  .music-btn {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+}
+input[type=range]::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #00acee;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -4px;
+  border: none;
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: #00acee;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
 }
